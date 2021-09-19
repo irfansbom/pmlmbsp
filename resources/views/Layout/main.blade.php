@@ -6,8 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {{-- boostrap --}}
     <!-- <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}"> -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     {{-- datatables --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
     {{-- jquery --}}
@@ -31,7 +34,9 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: turquoise">
-        <a class="navbar-brand"><img alt="MBSP" src="{{asset('/pictures/SiKat1.png')}}" width="100" height="30"></a>
+        &nbsp
+        <a class="navbar-brand text-center" style="margin: auto"><img alt="MBSP"
+                src="{{asset('assets/images/MSBP2.png')}}" width="20"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -39,13 +44,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item katalog">
-                    <a class="nav-link" href="{{url('katalog')}}">Entry</a>
+                    <a class="nav-link" href="{{url('entry')}}">Entry</a>
                 </li>
                 <li class="nav-item beranda">
-                    <a class="nav-link" href="{{url('tentang')}}">Report </a>
+                    <a class="nav-link" href="{{url('report')}}">Report </a>
                 </li>
                 @if(session('username'))
-                <li class="nav-item admin">
+                {{-- <li class="nav-item admin">
                     <a class="nav-link" href="{{url('admin')}}">List Publikasi</a>
                 </li>
                 <li class="nav-item qrcode">
@@ -53,7 +58,7 @@
                 </li>
                 <li class="nav-item scanner">
                     <a class="nav-link" href="{{url('scanner')}}">Scan QR Code </a>
-                </li>
+                </li> --}}
                 @endif
             </ul>
         </div>

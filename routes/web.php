@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,3 +19,7 @@ use App\Http\Controllers\LoginController;
 //     return view('welcome');
 // });
 Route::get('/', [LoginController::class, 'login']);
+// Route::get('/report', [ReportController::class, 'index', function () {
+//     return;
+// }]);
+Route::resource('report', ReportController::class);

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDataTable extends Migration
+class CreateKecamatanTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateDataTable extends Migration
      */
     public function up()
     {
-        Schema::create('data', function (Blueprint $table) {
+        Schema::create('kecamatan', function (Blueprint $table) {
             $table->id();
-            $table->text('user');
-            $table->double('dokumen_diterima');
-            $table->double('dokumen_diserahkan');
-            $table->text('deskripsi');
-            $table->string('kode_kabupaten');
-            $table->string('kode_kecamatan');
+            $table->string('id_kab');
+            $table->string('id_kec');
+            $table->string('nm_kec');
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ class CreateDataTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('data');
+        Schema::dropIfExists('kecamatan');
     }
 }
