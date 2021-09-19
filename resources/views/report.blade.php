@@ -26,7 +26,8 @@
             </datalist> --}}
             <div id="divkec">
                 <label for="keclist" class="">Kabupaten/kota</label>
-                <input class="form-control" list="kecoption" id="keclist" placeholder="Type to search..." name="kec">
+                <input class="form-control" list="kecoption" id="keclist" placeholder="Type to search..." name="kec"
+                    autocomplete="off">
                 <datalist id="kecoption">
                     <option value="1600" selected>Semua</option>
                     @foreach ($kabkotlist as $kabkot)
@@ -34,10 +35,10 @@
                     @endforeach
                 </datalist>
             </div>
-            <div id="divnks">
+            {{-- <div id="divnks">
                 <label for="nks" class="">NKS</label>
                 <input class="form-control" id="nks" placeholder="jumlah nks" name="nks">
-            </div>
+            </div> --}}
 
             <div id="divpetugas">
                 <label for="petugaslist" class="">Petugas</label>
