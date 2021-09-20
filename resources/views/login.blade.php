@@ -5,7 +5,7 @@
 @section('container')
 
 <body class="text-center">
-    <div style="min-height:40em">
+    <div style="height: 80%; width: 100%;">
         <form class="form-signin" method="POST" action="login">
             @csrf
             <img class="mb-4" src="{{asset('/assets/images/MSBP.png')}}" alt="" width="200" height="200">
@@ -15,7 +15,7 @@
             <input type="password" id="inputPassword" class="form-control" placeholder="Password" required
                 name="password">
             <button class="btn btn-lg btn-info btn-block" type="submit">Login</button>
-            <p class="mt-5 mb-3 text-muted">&copy; MBSP 2021</p>
+            <p class="mt-5 mb-3 text-muted">&copy; MSBP 2021</p>
         </form>
     </div>
 </body>
