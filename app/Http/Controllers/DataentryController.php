@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Data;
+use App\Models\Input;
 use Illuminate\Http\Request;
 
 class DataentryController extends Controller
@@ -44,7 +45,7 @@ class DataentryController extends Controller
         //     'dok_diserahkan' => $request->get('sec_email'),
         //     'deskripsi'    => $request->get("gender")
         // ]);
-        $query = Data::where('nks', $request->nks)
+        $query = Input::where('nks', $request->nks)
             ->update(['dok_diterima' => $request->dok_diterima, 'dok_diserahkan' => $request->dok_diserahkan, 'deskripsi' => $request->deskripsi]);
         // dump($query);
         if ($query == 1) {

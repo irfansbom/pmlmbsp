@@ -21,7 +21,9 @@ use App\Http\Controllers\ReportController;
 // });
 Route::get('/', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'login']);
+Route::post('/loginweb', [LoginController::class, 'loginweb']);
 Route::get('/get_token', [LoginController::class, 'get_token']);
+Route::get('/logout', [LoginController::class, 'logout']);
 // Route::get('/report', [ReportController::class, 'index', function () {
 //     return;
 // }]);

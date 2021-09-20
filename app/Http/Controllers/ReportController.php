@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Data;
 use App\Models\Kabkot;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
@@ -15,22 +17,54 @@ class ReportController extends Controller
      */
     public function index(Request $request)
     {
-        //
-        $filterkec = null;
-        $arraykab = [];
-        $kabkotlist = Kabkot::all();
-        // dump($kabkotlist);
-        if ($request->has('kec')) {
-            $filterkec =  'ada';
+
+        // dump(session()->has('username'));
+        if (!session()->has('username')) {
+            return redirect()->action([LoginController::class, 'index']);
+        } else {
+            $arraykab = [];
+            $arraydok_terima = [];
+            $arraydok_serah = [];
+            $kabkotlist = Kabkot::all();
+
+            if ($request->kab != null && $request->kab != '1600') {
+                $kode_kab = substr($request->kab, 2, 2);
+                $datas = DB::table('data')
+                    ->where('data.kode_kab', $kode_kab)
+                    ->join('kecamatan', 'data.kode_kec', '=', 'kecamatan.id_kec')
+                    ->groupBy('data.nks')
+                    ->select(DB::raw('data.kode_kab, nks as nama ,sum(data.dok_diterima) as dok_diterima, sum(data.dok_diserahkan) as dok_diserahkan, pml'))
+                    ->get();
+                foreach ($datas as $data) {
+                    array_push($arraykab, $data->nama);
+                    array_push($arraydok_terima, $data->dok_diterima);
+                    array_push($arraydok_serah, $data->dok_diserahkan);
+                }
+                $petugass = User::where('level', 'PML')->where('kode_wil', $request->kab)->get();
+            } else {
+                $datas = DB::table('data')->join('kabkot', 'data.kode_kab', '=', 'kabkot.kode_kab')
+                    ->groupBy('data.kode_kab')
+                    ->select(DB::raw('data.kode_kab, nm_kab as nama,sum(data.dok_diterima) as dok_diterima, sum(data.dok_diserahkan) as dok_diserahkan'))
+                    ->get();
+                foreach ($datas as $data) {
+                    array_push($arraykab, $data->nama);
+                    array_push($arraydok_terima, $data->dok_diterima);
+                    array_push($arraydok_serah, $data->dok_diserahkan);
+                }
+                $petugass = User::where('level', 'PML')->get();
+            }
+
+
+            return view('report', compact(
+                'datas',
+                'petugass',
+                'kabkotlist',
+                'request',
+                'arraykab',
+                'arraydok_terima',
+                'arraydok_serah'
+            ));
         }
-        // $kabkotarray = Kabkot::select('nm_kab')->get();
-        foreach ($kabkotlist as $k) {
-            array_push($arraykab, $k->nm_kab);
-        }
-        // echo $k->nm_kab;
-        // dump($arraykab);
-        $data = Data::all();
-        return view('report', compact('data', 'kabkotlist', 'request', 'arraykab'));
     }
 
     /**

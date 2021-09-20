@@ -43,4 +43,27 @@ class LoginController extends Controller
             ], 200);
         }
     }
+
+    public function loginweb(Request $request)
+    {
+        $username = $request->input('username');
+        $password = $request->input('password');
+        $pwdb = User::where('email', $username)->first();
+        if ($pwdb != null && $password == $pwdb->password) {
+            // dump($pwdb);
+            $request->session()->put('username', $pwdb->email);
+            $request->session()->put('kode_wil', $pwdb->kode_wil);
+            // dump(session()->has('username'));
+            return redirect()->action([ReportController::class, 'index'], ['kab' => $pwdb->kode_wil]);
+        } else {
+            // dump('salah');
+            return redirect()->action([LoginController::class, 'index'], ['alert' => 'yes']);
+        }
+    }
+
+    public function logout()
+    {
+        session()->forget('username');
+        return  redirect()->action([LoginController::class, 'index']);
+    }
 }
