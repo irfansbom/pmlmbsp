@@ -5,12 +5,12 @@
 @section('container')
 
 <body class="text-center">
-    <div style="height: 80%; width: 100%;">
-        <form class="form-signin" method="POST" action="login">
+    <div style="min-height:40em">
+        <form class="form-signin" method="POST" action="loginweb">
             @csrf
             <img class="mb-4" src="{{asset('/assets/images/MSBP.png')}}" alt="" width="200" height="200">
             <h1 class="h3 mb-3 font-weight-normal">Login Admin</h1>
-            <input type="text" id="inputEmail" class="form-control" placeholder="Username" required autofocus
+            <input type="text" id="inputEmail" class="form-control" placeholder="Email" required autofocus
                 name="username">
             <input type="password" id="inputPassword" class="form-control" placeholder="Password" required
                 name="password">

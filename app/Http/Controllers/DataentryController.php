@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Data;
+use App\Models\Input;
 use Illuminate\Http\Request;
 
 class DataentryController extends Controller
@@ -36,18 +37,21 @@ class DataentryController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        // $query = Data::updateOrCreate([
-        //     'nks'   => $request->nks,
-        // ], [
-        //     'dok_diterima'     => $request->get('about'),
-        //     'dok_diserahkan' => $request->get('sec_email'),
-        //     'deskripsi'    => $request->get("gender")
-        // ]);
-        $query = Data::where('nks', $request->nks)
-            ->update(['dok_diterima' => $request->dok_diterima, 'dok_diserahkan' => $request->dok_diserahkan, 'deskripsi' => $request->deskripsi]);
-        // dump($query);
-        if ($query == 1) {
+        $query =  Input::create([
+            'nks' => $request->nks,
+            'dok_diterima' => $request->dok_diterima,
+            'dok_diserahkan' => $request->dok_diserahkan,
+            'deskripsi' => $request->deskripsi
+        ]);
+
+        Data::where('nks', $request->nks)->update([
+            'nks' => $request->nks,
+            'dok_diterima' => $request->dok_diterima,
+            'dok_diserahkan' => $request->dok_diserahkan,
+            'deskripsi' => $request->deskripsi
+        ]);
+
+        if ($query) {
             return  response()->json([
                 'success' => true,
                 'message' => 'berhasil terupdate',
@@ -66,12 +70,9 @@ class DataentryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function showbynks(Request $request)
     {
-        //
-        // dump($request->all());
         $query = Data::where('nks', $request->nks)->get()->toArray();
-        // dump($query);
         return  response()->json([
             'success' => true,
             'message' => 'mengambil data',
@@ -92,7 +93,7 @@ class DataentryController extends Controller
         ], 200);
     }
 
-    public function showall(Request $request)
+    public function showall()
     {
         //
         // dump($request->all());
@@ -101,6 +102,28 @@ class DataentryController extends Controller
         return  response()->json([
             'success' => true,
             'message' => 'mengambil data',
+            'data' => $query
+        ], 200);
+    }
+
+
+    public function nkslog(Request $request)
+    {
+
+        $query = input::where('nks', $request->nks)->get()->toArray();
+        return  response()->json([
+            'success' => true,
+            'message' => 'History NKS',
+            'data' => $query
+        ], 200);
+    }
+
+    public function nks_bypml(Request $request)
+    {
+        $query = Data::where('pml', $request->kode_pml)->get()->toArray();
+        return response()->json([
+            'success' => true,
+            'message' => 'Data NKS by PML',
             'data' => $query
         ], 200);
     }

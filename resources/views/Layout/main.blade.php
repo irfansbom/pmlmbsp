@@ -43,22 +43,19 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item katalog">
+                {{-- <li class="nav-item katalog">
                     <a class="nav-link" href="{{url('entry')}}">Entry</a>
-                </li>
-                <li class="nav-item beranda">
+                </li> --}}
+                <li class="nav-item report active">
                     <a class="nav-link" href="{{url('report')}}">Report </a>
                 </li>
+
+            </ul>
+            <ul class="navbar-nav">
                 @if(session('username'))
-                {{-- <li class="nav-item admin">
-                    <a class="nav-link" href="{{url('admin')}}">List Publikasi</a>
+                <li class="nav-item ">
+                    <a class="nav-link mr-sm-2 " href="{{url('logout')}}">logout<i class="bi bi-door-open"></i></a>
                 </li>
-                <li class="nav-item qrcode">
-                    <a class="nav-link" href="{{url('qrcode')}}">Cetak QR Code </a>
-                </li>
-                <li class="nav-item scanner">
-                    <a class="nav-link" href="{{url('scanner')}}">Scan QR Code </a>
-                </li> --}}
                 @endif
             </ul>
         </div>
