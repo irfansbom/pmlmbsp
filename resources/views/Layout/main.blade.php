@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {{-- boostrap --}}
-    <!-- <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}"> -->
+    <!-- <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}"> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
@@ -14,8 +14,8 @@
     {{-- datatables --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
     {{-- jquery --}}
-    <script src="https://code.jquery.com/jquery-3.5.1.js"
-        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
         integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
     </script>
@@ -36,7 +36,7 @@
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: turquoise">
         &nbsp
         <a class="navbar-brand text-center" style="margin: auto"><img alt="MBSP"
-                src="{{asset('assets/images/MSBP2.png')}}" width="20"></a>
+                src="{{ asset('assets/images/MSBP2.png') }}" width="20"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -46,16 +46,16 @@
                 {{-- <li class="nav-item katalog">
                     <a class="nav-link" href="{{url('entry')}}">Entry</a>
                 </li> --}}
-                <li class="nav-item report active">
+                {{-- <li class="nav-item report active">
                     <a class="nav-link" href="{{url('report')}}">Report </a>
-                </li>
+                </li> --}}
 
             </ul>
             <ul class="navbar-nav">
-                @if(session('username'))
-                <li class="nav-item ">
-                    <a class="nav-link mr-sm-2 " href="{{url('logout')}}">logout<i class="bi bi-door-open"></i></a>
-                </li>
+                @if (session('username'))
+                    <li class="nav-item ">
+                        <a class="nav-link mr-sm-2 " href="{{ url('logout') }}">logout<i class="bi bi-door-open"></i></a>
+                    </li>
                 @endif
             </ul>
         </div>
@@ -100,4 +100,5 @@
         font-size: 13px;
         color: black;
     }
+
 </style>

@@ -58,27 +58,36 @@
                 <thead>
                     <tr>
                         <th scope="col">No</th>
-                        @if ($request->kab != null && $request->kab != '1600')
-                            @if ($request->petugas != null && $request->petugas != '0')
-                                @if ($request->nks != null && $request->nks != '0')
-                                    <th scope="col">Waktu</th>
-                                @else
-                                    <th scope="col">NKS</th>
-                                @endif
-                            @else
-                                <th scope="col">NKS</th>
-                            @endif
+                        @if ($request->nks != null && $request->nks != '0')
+                            <th scope="col">Waktu</th>
                         @else
-                            <th scope="col">Kabupaten/Kota</th>
+                            @if ($request->petugas != null && $request->petugas != '0')
+                                <th scope="col">NKS</th>
+                            @else
+                                @if ($request->kab != null && $request->kab != '0')
+                                    <th scope="col">NKS</th>
+                                @else
+                                    <th scope="col">Nama Kabupaten</th>
+                                @endif
+                            @endif
                         @endif
                         <th scope="col">Dokumen Diterima</th>
                         <th scope="col">Dokumen Diserahkan</th>
-                        @if ($request->kab != null && $request->kab != '1600')
+
+                        @if ($request->nks != null && $request->nks != '0')
+                            <th scope="col">Deskripsi</th>
+                        @else
                             @if ($request->petugas != null && $request->petugas != '0')
                                 <th scope="col">Deskripsi</th>
-                                <th scope="col">Terakhir Update</th>
+                                <th scope="col">Update Terakhir</th>
                             @else
-                                <th scope="col">PML</th>
+                                @if ($request->kab != null && $request->kab != '0')
+                                    <th scope="col">Deskripsi</th>
+                                    <th scope="col">PML</th>
+                                    <th scope="col">Update Terakhir</th>
+                                @else
+                                    <th scope="col">Update Terakhir</th>
+                                @endif
                             @endif
                         @endif
                     </tr>
@@ -90,14 +99,23 @@
                             <td>{{ $data->nama }}</td>
                             <td>{{ $data->dok_diterima }}</td>
                             <td>{{ $data->dok_diserahkan }}</td>
-                            @if ($request->kab != null && $request->kab != '1600')
+                            @if ($request->nks != null && $request->nks != '0')
+                                <td>{{ $data->deskripsi }}</td>
+                            @else
                                 @if ($request->petugas != null && $request->petugas != '0')
                                     <td>{{ $data->deskripsi }}</td>
-                                    <td>{{ $data->created_at }}</td>
+                                    <td>{{ $data->updated_at }}</td>
                                 @else
-                                    <td>{{ $data->pml }}</td>
+                                    @if ($request->kab != null && $request->kab != '0')
+                                        <td>{{ $data->deskripsi }}</td>
+                                        <td>{{ $data->pml }}</td>
+                                        <td>{{ $data->updated_at }}</td>
+                                    @else
+                                        <td>{{ $data->updated_at }}</td>
+                                    @endif
                                 @endif
                             @endif
+
                         </tr>
                     @endforeach
                 </tbody>
@@ -122,14 +140,13 @@
 
         var ctx = document.getElementById('myChart').getContext('2d');
         if (request.nks != null && request.nks != '0') {
-
             var myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: {!! json_encode($arraykab) !!},
+                    labels: {!! json_encode(array_reverse($arraykab)) !!},
                     datasets: [{
                         label: 'dokumen diterima',
-                        data: {!! json_encode($arraydok_terima) !!},
+                        data: {!! json_encode(array_reverse($arraydok_terima)) !!},
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.3)',
                             'rgba(54, 162, 235, 0.3)',
@@ -149,7 +166,7 @@
                         borderWidth: 1
                     }, {
                         label: 'Dokumen diserahkan',
-                        data: {!! json_encode($arraydok_serah) !!},
+                        data: {!! json_encode(array_reverse($arraydok_serah)) !!},
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.6)',
                             'rgba(54, 162, 235, 0.6)',
@@ -170,7 +187,6 @@
                     }, ]
                 }
             });
-
         } else {
             var myChart = new Chart(ctx, {
                 type: 'bar',

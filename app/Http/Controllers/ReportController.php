@@ -21,8 +21,8 @@ class ReportController extends Controller
     public function index(Request $request)
     {
         // dump(session()->has('username'));
-        if (!session()->has('username')) {
-            return redirect()->action([LoginController::class, 'index']);
+        if (session('level') != 'ADMIN') {
+            return redirect()->action([LoginController::class, 'logout']);
         } else {
             $arraykab = [];
             $arraydok_terima = [];
@@ -157,73 +157,116 @@ class ReportController extends Controller
 
     public function adminkab(Request $request)
     {
-        // dump($request->session()->all());
-        $kabkotlist = Kabkot::all();
-        $arraykab = [];
-        $arraydok_terima = [];
-        $arraydok_serah = [];
-        $kode_kab = session('kode_wil');
-        if ($request->petugas != null && $request->petugas != '0') {
-            if ($request->nks != null && $request->nks != '0') {
-                $datas = DB::table('input')
-                    ->select(DB::raw('updated_at as nama , dok_diterima , dok_diserahkan, deskripsi, created_at'))
-                    ->where('nks', $request->nks)->get();
-                foreach ($datas as $data) {
-                    array_push($arraykab, $data->nama);
-                    array_push($arraydok_terima, $data->dok_diterima);
-                    array_push($arraydok_serah, $data->dok_diserahkan);
-                }
-                dump($datas);
-            } else {
-
-                $datas = DB::table('m_dsbs')
-                    ->where('m_dsbs.pml', $request->petugas)
-                    ->select(DB::raw('m_dsbs.kd_kab, nks as nama ,m_dsbs.dok_diterima as dok_diterima, m_dsbs.dok_diserahkan as dok_diserahkan, pml, deskripsi, created_at'))
-                    ->get();
-                foreach ($datas as $data) {
-                    array_push($arraykab, $data->nama);
-                    array_push($arraydok_terima, $data->dok_diterima);
-                    array_push($arraydok_serah, $data->dok_diserahkan);
-                }
-            }
-            $nkss = Data::where('pml', $request->petugas)->get();
+        if (session('level') != 'ADMINKAB') {
+            return redirect()->action([LoginController::class, 'logout']);
         } else {
-            if ($request->nks != null && $request->nks != '0') {
-                $datas = DB::table('input')
-                    ->select(DB::raw('updated_at as nama , dok_diterima , dok_diserahkan, deskripsi, created_at'))
-                    ->where('nks', $request->nks)->get();
-                foreach ($datas as $data) {
-                    array_push($arraykab, $data->nama);
-                    array_push($arraydok_terima, $data->dok_diterima);
-                    array_push($arraydok_serah, $data->dok_diserahkan);
+            $arraykab = [];
+            $arraydok_terima = [];
+            $arraydok_serah = [];
+            $kode_kab = session('kode_kab');
+            if ($request->petugas == null || $request->petugas == '0') {
+                if ($request->nks == null || $request->nks == '0') {
+                    $datas = DB::table('m_dsbs')
+                        ->where('kd_kab', $kode_kab)
+                        ->select(DB::raw('nks as nama , dok_diterima, dok_diserahkan, deskripsi, pml, updated_at'))
+                        ->get();
+                } else {
+                    $datas = DB::table('input')
+                        ->select(DB::raw('updated_at as nama , dok_diterima , dok_diserahkan, deskripsi'))
+                        ->where('nks', $request->nks)
+                        ->get();
                 }
+                $nkss = Data::where('kd_kab', $kode_kab)->get();
             } else {
-                $datas = DB::table('m_dsbs')->join('kabkot', 'm_dsbs.kd_kab', '=', 'kabkot.kode_kab')
-                    ->groupBy('m_dsbs.kd_kab')
-                    ->select(DB::raw('m_dsbs.kd_kab, nm_kab as nama, sum(m_dsbs.dok_diterima) as dok_diterima, sum(m_dsbs.dok_diserahkan) as dok_diserahkan'))
-                    ->get();
-                foreach ($datas as $data) {
-                    array_push($arraykab, $data->nama);
-                    array_push($arraydok_terima, $data->dok_diterima);
-                    array_push($arraydok_serah, $data->dok_diserahkan);
+                if ($request->nks == null || $request->nks == '0') {
+                    $datas = DB::table('m_dsbs')
+                        ->where('kd_kab', $kode_kab);
+                    if ($request->petugas != null && $request->petugas != '0') {
+                        $datas = $datas->where('pml', $request->petugas);
+                    }
+                    $datas = $datas->select(DB::raw('nks as nama, dok_diterima , dok_diserahkan, deskripsi, pml, updated_at'))
+                        ->get();
+                    dump($datas);
+                } else {
+                    $datas = DB::table('input')
+                        ->select(DB::raw('updated_at as nama , dok_diterima , dok_diserahkan, deskripsi'))
+                        ->where('nks', $request->nks)->get();
                 }
+                $nkss = Data::where('kd_kab', $kode_kab)->where('pml', $request->petugas)->get();
+            }
+            $petugass = Petugas::where('kd_kab', $kode_kab)->where('level', "PML")->get();
+            foreach ($datas as $data) {
+                array_push($arraykab, $data->nama);
+                array_push($arraydok_terima, $data->dok_diterima);
+                array_push($arraydok_serah, $data->dok_diserahkan);
+            }
+            return view('reportadminkab', compact(
+                'datas',
+                'petugass',
+                'request',
+                'arraykab',
+                'arraydok_terima',
+                'arraydok_serah',
+                'nkss'
+            ));
+        }
+    }
+
+
+    public function admin(Request $request)
+    {
+        if (session('level') != 'ADMINPROP') {
+            return redirect()->action([LoginController::class, 'logout']);
+        } else {
+            $kabkotlist = Kabkot::all();
+            $arraykab = [];
+            $arraydok_terima = [];
+            $arraydok_serah = [];
+            $kode_kab = substr($request->kab, 2, 2);
+
+            $datas = DB::table('m_dsbs')
+                ->join('kabkot', 'm_dsbs.kd_kab', '=', 'kabkot.kode_kab')
+                ->groupBy('m_dsbs.kd_kab')
+                ->select(DB::raw('m_dsbs.kd_kab, nm_kab as nama, sum(m_dsbs.dok_diterima) as dok_diterima, sum(m_dsbs.dok_diserahkan) as dok_diserahkan, updated_at'));
+            $petugass = Petugas::where('level', "PML")->get();
+            $nkss = Data::all();
+
+            if ($request->kab != null && $request->kab != '0') {
+                $nkss = Data::where('kd_kab', $kode_kab)->get();
+                $petugass = Petugas::where('kd_kab', $kode_kab)->where('level', "PML")->get();
+                $datas = DB::table('m_dsbs');
+                $datas = $datas->where('kd_kab', $kode_kab)->select(DB::raw('nks as nama, dok_diterima , dok_diserahkan, deskripsi, pml, updated_at'));
+            }
+            if ($request->petugas != null && $request->petugas != '0') {
+                $nkss = Data::where('pml', $request->petugas)->get();
+                $datas = $datas->where('pml', $request->petugas)->select(DB::raw('nks as nama, dok_diterima , dok_diserahkan, deskripsi, pml, updated_at'));
             }
 
-            $nkss = Data::all();
+            $datas = $datas->get();
+            if ($request->nks != null && $request->nks != '0') {
+                $datas = DB::table('input')
+                    ->select(DB::raw('updated_at as nama , dok_diterima , dok_diserahkan, deskripsi'))
+                    ->where('nks', $request->nks)->get();
+            }
+            // dump($nkss);
+            foreach ($datas as $data) {
+                array_push($arraykab, $data->nama);
+                array_push($arraydok_terima, $data->dok_diterima);
+                array_push($arraydok_serah, $data->dok_diserahkan);
+            }
+            return view('reportadmin', compact(
+                'datas',
+                'petugass',
+                'kabkotlist',
+                'request',
+                'arraykab',
+                'arraydok_terima',
+                'arraydok_serah',
+                'nkss'
+            ));
         }
-        $petugass = Petugas::where('level', 'PML')->get();
-
-        return view('report', compact(
-            'datas',
-            'petugass',
-            'kabkotlist',
-            'request',
-            'arraykab',
-            'arraydok_terima',
-            'arraydok_serah',
-            'nkss'
-        ));
     }
+
 
     /**
      * Show the form for creating a new resource.

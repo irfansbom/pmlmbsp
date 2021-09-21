@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Data;
 use App\Models\Input;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DataentryController extends Controller
 {
@@ -128,6 +129,20 @@ class DataentryController extends Controller
         ], 200);
     }
 
+
+    public function nkslogbypml(Request $request)
+    {
+        $pml = $request->kode_pml;
+        $query = DB::table('input')
+            ->join('m_dsbs', 'm_dsbs.nks', '=', 'input.nks')
+            ->where('m_dsbs.pml', $pml)
+            ->select()->get()->toArray();
+        return  response()->json([
+            'success' => true,
+            'message' => 'nks by pml',
+            'data' => $query
+        ], 200);
+    }
 
     /**
      * Show the form for editing the specified resource.
