@@ -58,25 +58,29 @@
                 <thead>
                     <tr>
                         <th scope="col">No</th>
-                        @if ($request->kab != null && $request->kab != '1600')
-                            @if ($request->petugas != null && $request->petugas != '0')
-                                @if ($request->nks != null && $request->nks != '0')
-                                    <th scope="col">Waktu</th>
-                                @else
-                                    <th scope="col">NKS</th>
-                                @endif
-                            @else
+                        @if ($request->petugas == null || $request->petugas == '0')
+                            @if ($request->nks == null || $request->nks == '0')
                                 <th scope="col">NKS</th>
+                            @else
+                                <th scope="col">Waktu</th>
                             @endif
                         @else
-                            <th scope="col">Kabupaten/Kota</th>
+                            <th scope="col">NKS</th>
                         @endif
                         <th scope="col">Dokumen Diterima</th>
                         <th scope="col">Dokumen Diserahkan</th>
-                        @if ($request->kab != null && $request->kab != '1600')
-                            @if ($request->petugas != null && $request->petugas != '0')
+                        @if ($request->petugas == null || $request->petugas == '0')
+                            @if ($request->nks == null || $request->nks == '0')
                                 <th scope="col">Deskripsi</th>
+                                <th scope="col">PML</th>
                                 <th scope="col">Terakhir Update</th>
+                            @else
+                                <th scope="col">Deskripsi</th>
+                            @endif
+                        @else
+                            @if ($request->nks == null || $request->nks == '0')
+                                <th scope="col">PML</th>
+                                <th scope="col">Deskripsi</th>
                             @else
                                 <th scope="col">PML</th>
                             @endif
@@ -90,13 +94,22 @@
                             <td>{{ $data->nama }}</td>
                             <td>{{ $data->dok_diterima }}</td>
                             <td>{{ $data->dok_diserahkan }}</td>
-                            @if ($request->kab != null && $request->kab != '1600')
-                                @if ($request->petugas != null && $request->petugas != '0')
+                            @if ($request->petugas == null || $request->petugas == '0')
+                                @if ($request->nks == null || $request->nks == '0')
                                     <td>{{ $data->deskripsi }}</td>
-                                    <td>{{ $data->created_at }}</td>
-                                @else
                                     <td>{{ $data->pml }}</td>
+                                    <td>{{ $data->updated_at }}</td>
+                                @else
+                                    <td>{{ $data->deskripsi }}</td>
                                 @endif
+                            @else
+                                @if ($request->nks == null || $request->nks == '0')
+                                    <td>{{ $data->deskripsi }}</td>
+                                    <td>{{ $data->updated_at }}</td>
+                                @else
+                                    <td>{{ $data->deskripsi }}</td>
+                                @endif
+
                             @endif
                         </tr>
                     @endforeach
@@ -122,7 +135,6 @@
 
         var ctx = document.getElementById('myChart').getContext('2d');
         if (request.nks != null && request.nks != '0') {
-
             var myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -170,7 +182,6 @@
                     }, ]
                 }
             });
-
         } else {
             var myChart = new Chart(ctx, {
                 type: 'bar',

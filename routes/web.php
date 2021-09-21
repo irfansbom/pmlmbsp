@@ -36,4 +36,4 @@ Route::get('/nkslog', [DataentryController::class, 'nkslog']);
 
 
 Route::resource('report', ReportController::class);
-Route::get('/reportadmin', [ReportController::class, 'adminkab']);
+Route::get('/adminkab', [ReportController::class, 'adminkab']);
