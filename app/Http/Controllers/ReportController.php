@@ -7,6 +7,7 @@ use App\Models\Data;
 use App\Models\Input;
 use App\Models\Kabkot;
 use App\Models\Petugas;
+use App\Models\Tanggal;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use PHPUnit\Util\Json;
@@ -154,7 +155,6 @@ class ReportController extends Controller
         }
     }
 
-
     public function adminkab(Request $request)
     {
         if (session('level') != 'ADMINKAB') {
@@ -171,7 +171,7 @@ class ReportController extends Controller
                         ->select(DB::raw('nks as nama , dok_diterima, dok_diserahkan, deskripsi, pml, updated_at'))
                         ->get();
                 } else {
-                    $datas = DB::table('input')
+                    $datas = DB::table('input')->orderBy('updated_at', 'desc')
                         ->select(DB::raw('updated_at as nama , dok_diterima , dok_diserahkan, deskripsi'))
                         ->where('nks', $request->nks)
                         ->get();
@@ -188,7 +188,7 @@ class ReportController extends Controller
                         ->get();
                     dump($datas);
                 } else {
-                    $datas = DB::table('input')
+                    $datas = DB::table('input')->orderBy('updated_at', 'desc')
                         ->select(DB::raw('updated_at as nama , dok_diterima , dok_diserahkan, deskripsi'))
                         ->where('nks', $request->nks)->get();
                 }
@@ -211,7 +211,6 @@ class ReportController extends Controller
             ));
         }
     }
-
 
     public function admin(Request $request)
     {
@@ -244,7 +243,7 @@ class ReportController extends Controller
 
             $datas = $datas->get();
             if ($request->nks != null && $request->nks != '0') {
-                $datas = DB::table('input')
+                $datas = DB::table('input')->orderBy('updated_at', 'desc')
                     ->select(DB::raw('updated_at as nama , dok_diterima , dok_diserahkan, deskripsi'))
                     ->where('nks', $request->nks)->get();
             }
@@ -262,6 +261,60 @@ class ReportController extends Controller
                 'arraykab',
                 'arraydok_terima',
                 'arraydok_serah',
+                'nkss'
+            ));
+        }
+    }
+
+
+    public function tabeltanggal(Request $request)
+    {
+        if (!session()->has('username')) {
+            return redirect()->action([LoginController::class, 'logout']);
+        } else {
+            $kabkotlist = Kabkot::all();
+            $nkss = Data::where('kd_kab', 01)->get();
+            $tanggal = Tanggal::all();
+            // $tgl = DB::table('tanggal')->select(DB::raw('tanggal'))->get();
+            // dump($tanggal);
+            // 
+            // foreach ($nkss as $key => $nks) {
+            //     $nkss[$key][$key] = $key + 5;
+            //     // dump($nkss[$key][$key]);
+            // }
+            $data2 = [];
+            foreach ($nkss as $key => $nks) {
+                $data3 = [];
+
+                foreach ($tanggal as $tgl) {
+                    // dump($tgl->tanggal . "%");
+                    $input = DB::table('input')->where('nks', $nks->nks)->where('updated_at', 'like', "2021-09-23%")->get();
+                    $data3 = [
+                        $tgl => $input->dok_diterima,
+                    ];
+                    // dump($input);
+                }
+
+                $data2[] = [
+                    'nks' => $nks->nks,
+                    'data' => $data3
+                ];
+            }
+            dump($data2);
+            // foreach ($datas as $data) {
+            //     array_push($arraykab, $data->nama);
+            //     array_push($arraydok_terima, $data->dok_diterima);
+            //     array_push($arraydok_serah, $data->dok_diserahkan);
+            // }
+            // dump($nkss);
+            return view('tabeltanggal', compact(
+                // 'datas',
+                // 'petugass',
+                'kabkotlist',
+                'request',
+                // 'arraykab',
+                // 'arraydok_terima',
+                // 'arraydok_serah',
                 'nkss'
             ));
         }

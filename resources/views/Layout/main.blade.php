@@ -33,7 +33,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: turquoise">
+    <nav class="navbar navbar-expand-md navbar-light" style="background-color: turquoise">
         &nbsp
         <a class="navbar-brand text-center" style="margin: auto"><img alt="MBSP"
                 src="{{ asset('assets/images/MSBP2.png') }}" width="20"></a>
@@ -43,18 +43,27 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                {{-- <li class="nav-item katalog">
-                    <a class="nav-link" href="{{url('entry')}}">Entry</a>
-                </li> --}}
-                {{-- <li class="nav-item report active">
-                    <a class="nav-link" href="{{url('report')}}">Report </a>
-                </li> --}}
+                @if (session('level') == 'ADMINPROP')
+                    <li class="nav-item report active">
+                        <a class="nav-link" href="{{ url('admin') }}">Report </a>
+                    </li>
+                @else
+                    <li class="nav-item report active">
+                        <a class="nav-link" href="{{ url('adminkab') }}">Report </a>
+                    </li>
+
+                @endif
+                <li class="nav-item katalog">
+                    <a class="nav-link" href="{{ url('tabeltanggal') }}">Tabel Tanggal</a>
+                </li>
+
 
             </ul>
             <ul class="navbar-nav">
                 @if (session('username'))
                     <li class="nav-item ">
-                        <a class="nav-link mr-sm-2 " href="{{ url('logout') }}">logout<i class="bi bi-door-open"></i></a>
+                        <a class="nav-link mr-sm-2 " href="{{ url('logout') }}">logout<i
+                                class="bi bi-door-open"></i></a>
                     </li>
                 @endif
             </ul>

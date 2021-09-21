@@ -11,19 +11,6 @@
         <div class="col-8">
             <h3>Filter</h3>
             <form action="">
-                {{-- <div id="divkab" hidden>
-                    <label for="kablist" class="">Kabupaten/kota</label>
-                <input class=" form-control"
-                        disabled list="kaboption" id="kablist" placeholder="Type to search..." name="kab"
-                        autocomplete="off">
-                        <datalist id="kaboption">
-                            <option value="1600" selected>Semua</option>
-                            @foreach ($kabkotlist as $kabkot)
-                                <option value={{ $kabkot->id_kab }} selected>{{ $kabkot->nm_kab }}</option>
-                            @endforeach
-                        </datalist>
-                </div> --}}
-
                 <div id="divpetugas">
                     <label for="petugaslist" class="">Petugas</label>
                 <input class=" form-control"
@@ -54,7 +41,6 @@
 
         <div>
             <canvas id="myChart" height="20vh" width="60vw"></canvas>
-            {{-- <canvas id="myChart2" height="20vh" width="60vw"></canvas> --}}
             <table class="table">
                 <thead>
                     <tr>
@@ -95,7 +81,7 @@
                 <tbody>
                     @foreach ($datas as $key => $data)
                         <tr>
-                            <th scope="row">{{ $key }}</th>
+                            <th scope="row">{{ ++$key }}</th>
                             <td>{{ $data->nama }}</td>
                             <td>{{ $data->dok_diterima }}</td>
                             <td>{{ $data->dok_diserahkan }}</td>

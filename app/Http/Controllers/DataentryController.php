@@ -132,14 +132,20 @@ class DataentryController extends Controller
 
     public function nkslogbypml(Request $request)
     {
-        $pml = $request->kode_pml;
-        $query = DB::table('input')
-            ->join('m_dsbs', 'm_dsbs.nks', '=', 'input.nks')
-            ->where('m_dsbs.pml', $pml)
-            ->select()->get()->toArray();
-        return  response()->json([
+        $query = input::where('kode_pml', $request->kode_pml)->get()->toArray();
+        return response()->json([
             'success' => true,
-            'message' => 'nks by pml',
+            'message' => 'Log Input NKS by PML',
+            'data' => $query
+        ], 200);
+    }
+
+    public function details_input(Request $request)
+    {
+        $query = input::where('id', $request->id)->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'Detail Input',
             'data' => $query
         ], 200);
     }

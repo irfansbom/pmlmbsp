@@ -34,8 +34,10 @@ Route::get('/showbykab', [DataentryController::class, 'showbykab']);
 Route::get('/showall', [DataentryController::class, 'showall']);
 Route::get('/nkslog', [DataentryController::class, 'nkslog']);
 Route::post('/nkslogbypml', [DataentryController::class, 'nkslogbypml']);
+Route::post('/details', [DataentryController::class, 'details_input']);
 
 
 Route::resource('report', ReportController::class);
 Route::get('/adminkab', [ReportController::class, 'adminkab']);
 Route::get('/admin', [ReportController::class, 'admin']);
+Route::get('/tabeltanggal', [ReportController::class, 'tabeltanggal']);

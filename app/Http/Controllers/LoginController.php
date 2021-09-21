@@ -23,16 +23,20 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $user = Petugas::where('uname', $request->username)->first();
-        $pw = $user->pwd;
+        if ($user) {
+            $pw = $user->pwd;
+        } else {
+            $user = null;
+        }
         if ($user == null) {
             return  response()->json([
                 'success' => false,
-                'message' => 'email salah',
+                'message' => 'username/password salah!',
             ], 200);
         } elseif ($request->password != $pw) {
             return response()->json([
                 'success' => false,
-                'message' => 'password salah',
+                'message' => 'username/password salah!',
             ], 200);
         } else {
             return  response()->json([

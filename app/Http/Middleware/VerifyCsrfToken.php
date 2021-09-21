@@ -13,5 +13,14 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
+        '/login',
+        '/updatenks',
+        '/nkslogbypml',
+        '/nkslog',
+        '/showall',
+        '/showbykab',
+        '/shownks',
+        '/getnksbypml',
+        '/details',
     ];
 }
