@@ -7,15 +7,15 @@
         integrity="sha512-Wt1bJGtlnMtGP0dqNFH1xlkLBNpEodaiQ8ZN5JLA5wpc1sUlk/O5uuOMNgvzddzkpvZ9GLyYNa8w2s7rqiTk5Q=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <div class="container">
+    <div class="container border rounded my-2">
         <div class="col-8">
             <h3>Filter</h3>
             <form action="">
                 <div id="divpetugas">
                     <label for="petugaslist" class="">Petugas</label>
-                <input class=" form-control"
-                        list="petugasoption" id="petugaslist" placeholder="Type to search..." name="petugas"
-                        autocomplete="off">
+                    <input class="
+                        form-control"onClick="this.setSelectionRange(0, this.value.length)" list="petugasoption"
+                        id="petugaslist" placeholder="Type to search..." name="petugas" autocomplete="off">
                         <datalist id="petugasoption">
                             <option value="0" selected>Semua</option>
                             @foreach ($petugass as $petugas)
@@ -26,8 +26,9 @@
 
                 <div id="divnks">
                     <label for="nkslist" class="">NKS</label>
-                <input class=" form-control" list="nksoption"
-                        id="nkslist" placeholder="Cari NKS.." name="nks" autocomplete="off">
+                    <input class=" form-control"
+                        list="nksoption" onClick="this.setSelectionRange(0, this.value.length)" id="nkslist"
+                        placeholder="Cari NKS.." name="nks" autocomplete="off">
                         <datalist id="nksoption">
                             <option value="0" selected>Semua</option>
                             @foreach ($nkss as $nks)
@@ -35,78 +36,81 @@
                             @endforeach
                         </datalist>
                 </div>
-                <button type="submit" class="btn btn-primary float-right">Submit</button>
+                <div class="d-flex justify-content-end m-1">
+                    <button type="submit" class="btn btn-primary btn-lg  my-2">Submit</button>
+                </div>
             </form>
         </div>
-
-        <div>
-            <canvas id="myChart" height="20vh" width="60vw"></canvas>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">No</th>
-                        @if ($request->petugas == null || $request->petugas == '0')
-                            @if ($request->nks == null || $request->nks == '0')
-                                <th scope="col">NKS</th>
-                            @else
-                                <th scope="col">Waktu</th>
-                            @endif
+    </div>
+    <div class="container border rounded my-2">
+        <h3>Bar Chart</h3>
+        <canvas id="myChart" height="20vh" width="60vw"></canvas>
+        <h3>Tabel</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    @if ($request->petugas == null || $request->petugas == '0')
+                        @if ($request->nks == null || $request->nks == '0')
+                            <th scope="col">NKS</th>
                         @else
-                            @if ($request->nks == null || $request->nks == '0')
-                                <th scope="col">NKS</th>
-                            @else
-                                <th scope="col">Waktu</th>
-                            @endif
+                            <th scope="col">Waktu</th>
                         @endif
-                        <th scope="col">Dokumen Diterima</th>
-                        <th scope="col">Dokumen Diserahkan</th>
+                    @else
+                        @if ($request->nks == null || $request->nks == '0')
+                            <th scope="col">NKS</th>
+                        @else
+                            <th scope="col">Waktu</th>
+                        @endif
+                    @endif
+                    <th scope="col">Dokumen Diterima</th>
+                    <th scope="col">Dokumen Diserahkan</th>
+                    @if ($request->petugas == null || $request->petugas == '0')
+                        @if ($request->nks == null || $request->nks == '0')
+                            <th scope="col">Deskripsi</th>
+                            <th scope="col">PML</th>
+                            <th scope="col">Terakhir Update</th>
+                        @else
+                            <th scope="col">Deskripsi</th>
+                        @endif
+                    @else
+                        @if ($request->nks == null || $request->nks == '0')
+                            <th scope="col">Deskripsi</th>
+                            <th scope="col">Terakhir Update</th>
+                        @else
+                            <th scope="col">Deskripsi</th>
+                        @endif
+                    @endif
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($datas as $key => $data)
+                    <tr>
+                        <th scope="row">{{ ++$key }}</th>
+                        <td>{{ $data->nama }}</td>
+                        <td>{{ $data->dok_diterima }}</td>
+                        <td>{{ $data->dok_diserahkan }}</td>
                         @if ($request->petugas == null || $request->petugas == '0')
                             @if ($request->nks == null || $request->nks == '0')
-                                <th scope="col">Deskripsi</th>
-                                <th scope="col">PML</th>
-                                <th scope="col">Terakhir Update</th>
+                                <td>{{ $data->deskripsi }}</td>
+                                <td>{{ $data->pml }}</td>
+                                <td>{{ $data->updated_at }}</td>
                             @else
-                                <th scope="col">Deskripsi</th>
+                                <td>{{ $data->deskripsi }}</td>
                             @endif
                         @else
                             @if ($request->nks == null || $request->nks == '0')
-                                <th scope="col">Deskripsi</th>
-                                <th scope="col">Terakhir Update</th>
+                                <td>{{ $data->deskripsi }}</td>
+                                <td>{{ $data->updated_at }}</td>
                             @else
-                                <th scope="col">Deskripsi</th>
+                                <td>{{ $data->deskripsi }}</td>
                             @endif
+
                         @endif
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach ($datas as $key => $data)
-                        <tr>
-                            <th scope="row">{{ ++$key }}</th>
-                            <td>{{ $data->nama }}</td>
-                            <td>{{ $data->dok_diterima }}</td>
-                            <td>{{ $data->dok_diserahkan }}</td>
-                            @if ($request->petugas == null || $request->petugas == '0')
-                                @if ($request->nks == null || $request->nks == '0')
-                                    <td>{{ $data->deskripsi }}</td>
-                                    <td>{{ $data->pml }}</td>
-                                    <td>{{ $data->updated_at }}</td>
-                                @else
-                                    <td>{{ $data->deskripsi }}</td>
-                                @endif
-                            @else
-                                @if ($request->nks == null || $request->nks == '0')
-                                    <td>{{ $data->deskripsi }}</td>
-                                    <td>{{ $data->updated_at }}</td>
-                                @else
-                                    <td>{{ $data->deskripsi }}</td>
-                                @endif
-
-                            @endif
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 @endsection
 

@@ -11,6 +11,7 @@ use App\Models\Tanggal;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use PHPUnit\Util\Json;
+use stdClass;
 
 class ReportController extends Controller
 {
@@ -272,50 +273,85 @@ class ReportController extends Controller
         if (!session()->has('username')) {
             return redirect()->action([LoginController::class, 'logout']);
         } else {
+            $labels = [];
             $kabkotlist = Kabkot::all();
-            $nkss = Data::where('kd_kab', 01)->get();
-            $tanggal = Tanggal::all();
-            // $tgl = DB::table('tanggal')->select(DB::raw('tanggal'))->get();
-            // dump($tanggal);
-            // 
-            // foreach ($nkss as $key => $nks) {
-            //     $nkss[$key][$key] = $key + 5;
-            //     // dump($nkss[$key][$key]);
-            // }
-            $data2 = [];
+            $kd_kab = session('kode_kab');
+            if(session('kode_kab')=='00'){
+                $kd_kab = '02';
+            }
+            
+            $namakab = Kabkot::where('kode_kab', $kd_kab )->get();
+            $nkss = Data::where('kd_kab', $kd_kab)->get();
+            $tanggal = Tanggal::all()->toArray();
+            $datas2 = [];
+            // dd($namakab);
             foreach ($nkss as $key => $nks) {
                 $data3 = [];
-
+                $data4 = [];
                 foreach ($tanggal as $tgl) {
-                    // dump($tgl->tanggal . "%");
-                    $input = DB::table('input')->where('nks', $nks->nks)->where('updated_at', 'like', "2021-09-23%")->get();
-                    $data3 = [
-                        $tgl => $input->dok_diterima,
-                    ];
-                    // dump($input);
+                    $input = DB::table('input')->orderBy('updated_at', 'desc')->where('nks', $nks->nks)->where('updated_at', 'like', $tgl['tanggal'] . "%")->get();
+                    if (count($input) != 0) {
+                        array_push($data3, $input[0]->dok_diterima);
+                        array_push($data4, $input[0]->dok_diserahkan);
+                    } else {
+                        array_push($data3, null);
+                        array_push($data4, null);
+                    }
                 }
-
-                $data2[] = [
+                $datas2[] = [
                     'nks' => $nks->nks,
-                    'data' => $data3
+                    'dok_diterima' => $data3,
+                    'dok_diserahkan' =>$data4
                 ];
             }
-            dump($data2);
-            // foreach ($datas as $data) {
-            //     array_push($arraykab, $data->nama);
-            //     array_push($arraydok_terima, $data->dok_diterima);
-            //     array_push($arraydok_serah, $data->dok_diserahkan);
-            // }
-            // dump($nkss);
+            // dump($datas2);
+            foreach ($tanggal as $tgl) {
+                array_push($labels, $tgl['tanggal']);
+                // array_push($arraydok_terima, $data->dok_diterima);
+                // array_push($arraydok_serah, $data->dok_diserahkan);
+            }
+            $dataset1 = [];
+            foreach($datas2 as $data2){
+                // dump($data2); 
+                $dt_diterima = [];
+                $dt_diserahkan = [];
+                $color = [];
+                foreach($data2['dok_diterima'] as $dt2){
+                    array_push($dt_diterima, $dt2);
+                    array_push($color, '#' . substr(str_shuffle('ABCDEF0123456789'), 0, 6));
+                }
+                foreach($data2['dok_diserahkan'] as $dt2){
+                    array_push($dt_diserahkan, $dt2);
+                    // array_push($color, '#' . substr(str_shuffle('ABCDEF0123456789'), 0, 6));
+                }
+            
+                $dataset1[] = [
+                    'label'=> $data2['nks'],
+                    'data' => $dt_diterima,
+                    'borderWidth'=> 1,
+                    'borderColor'=> $color,
+                    'backgroundColor'=> $color
+                ];
+                $dataset2[] = [
+                    'label'=> $data2['nks'],
+                    'data' => $dt_diserahkan,
+                    'borderWidth'=> 1,
+                    'borderColor'=> $color,
+                    'backgroundColor'=> $color
+                ];
+            }
+
+            // dump($dataset1);
             return view('tabeltanggal', compact(
-                // 'datas',
-                // 'petugass',
+                'dataset1',
+                'dataset2',
                 'kabkotlist',
                 'request',
-                // 'arraykab',
-                // 'arraydok_terima',
-                // 'arraydok_serah',
-                'nkss'
+                'labels',
+                'nkss',
+                'datas2',
+                'tanggal',
+                'namakab'
             ));
         }
     }

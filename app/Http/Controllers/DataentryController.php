@@ -38,19 +38,16 @@ class DataentryController extends Controller
      */
     public function store(Request $request)
     {
-        $query =  Input::create([
+        $query =  input::create([
             'nks' => $request->nks,
             'dok_diterima' => $request->dok_diterima,
             'dok_diserahkan' => $request->dok_diserahkan,
-            'deskripsi' => $request->deskripsi
+            'deskripsi' => $request->deskripsi,
+            'kode_pml' => $request->kode_pml,
+            'tanggal_laporan' => $request->tanggal_laporan
         ]);
 
-        Data::where('nks', $request->nks)->update([
-            'nks' => $request->nks,
-            'dok_diterima' => $request->dok_diterima,
-            'dok_diserahkan' => $request->dok_diserahkan,
-            'deskripsi' => $request->deskripsi
-        ]);
+        
 
         if ($query) {
             return  response()->json([

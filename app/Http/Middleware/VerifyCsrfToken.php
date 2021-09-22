@@ -22,5 +22,6 @@ class VerifyCsrfToken extends Middleware
         '/shownks',
         '/getnksbypml',
         '/details',
+        '/tabeltanggal'
     ];
 }

@@ -53,7 +53,7 @@ class LoginController extends Controller
         $password = $request->input('password');
         $pwdb = Petugas::where('uname', $username)->first();
         if ($pwdb != null && $password == $pwdb->pwd) {
-            dump($pwdb->u);
+            // dump($pwdb->u);
             $request->session()->put('username', $pwdb->uname);
             $request->session()->put('level', $pwdb->level);
             $request->session()->put('kode_kab', $pwdb->kd_kab);
