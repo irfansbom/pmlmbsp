@@ -20,7 +20,7 @@
                     <input class=" form-control"
                             list="kaboption" id="kablist" placeholder="Type to search..." name="kab" autocomplete="off">
                             <datalist id="kaboption">
-                                <option value="1600" selected>Semua</option>
+                                {{-- <option value="1600" selected>Semua</option> --}}
                                 @foreach ($kabkotlist as $kabkot)
                                     <option value={{ $kabkot->id_kab }} selected>{{ $kabkot->nm_kab }}</option>
                                 @endforeach
@@ -89,6 +89,7 @@
 
 @section('script')
     <script>
+        $(".tanggal").addClass("active");
         var ctx = document.getElementById('myChart').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'line',

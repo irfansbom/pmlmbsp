@@ -276,10 +276,14 @@ class ReportController extends Controller
             $labels = [];
             $kabkotlist = Kabkot::all();
             $kd_kab = session('kode_kab');
-            if(session('kode_kab')=='00'){
-                $kd_kab = '02';
+
+            if($request->kab != null ){
+                $kd_kab = substr($request->kab,2,2);
+            }else{
+                $kd_kab = session('kode_kab');
             }
             
+     
             $namakab = Kabkot::where('kode_kab', $kd_kab )->get();
             $nkss = Data::where('kd_kab', $kd_kab)->get();
             $tanggal = Tanggal::all()->toArray();
@@ -289,6 +293,7 @@ class ReportController extends Controller
                 $data3 = [];
                 $data4 = [];
                 foreach ($tanggal as $tgl) {
+                    // dump($tgl['tanggal']);
                     $input = DB::table('input')->orderBy('updated_at', 'desc')->where('nks', $nks->nks)->where('updated_at', 'like', $tgl['tanggal'] . "%")->get();
                     if (count($input) != 0) {
                         array_push($data3, $input[0]->dok_diterima);

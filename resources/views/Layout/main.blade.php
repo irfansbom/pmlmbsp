@@ -33,10 +33,10 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-md navbar-light" style="background-color: turquoise">
+    <nav class="navbar navbar-expand-md navbar-dark" style="background-color: darkviolet">
         &nbsp
         <a class="navbar-brand text-center" style="margin: auto"><img alt="MBSP"
-                src="{{ asset('assets/images/MSBP2.png') }}" width="20"></a>
+                src="{{ asset('assets/images/MSBP2.png') }}" width="40"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -44,17 +44,17 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 @if (session('level') == 'ADMINPROP')
-                    <li class="nav-item report active">
-                        <a class="nav-link" href="{{ url('admin') }}">Report </a>
+                    <li class="nav-item ">
+                        <a class="nav-link report" href="{{ url('admin') }}">Report </a>
                     </li>
                 @else
-                    <li class="nav-item report active">
-                        <a class="nav-link" href="{{ url('adminkab') }}">Report </a>
+                    <li class="nav-item report ">
+                        <a class="nav-link report " href="{{ url('adminkab') }}">Report </a>
                     </li>
 
                 @endif
-                <li class="nav-item katalog">
-                    <a class="nav-link" href="{{ url('tabeltanggal') }}">Tabel Tanggal</a>
+                <li class="nav-item ">
+                    <a class="nav-link tanggal" href="{{ url('tabeltanggal') }}">Tabel Tanggal</a>
                 </li>
 
 
@@ -76,7 +76,7 @@
                 &copy; Copyright <strong><span>BPS Provinsi Sumatera Selatan</span></strong>.
             </div>
             <div class="credits">
-                Designed by <a href="" style=" color: black;">SUMSEL ART</a>
+                Designed by <a href="" style=" color: DeepSkyBlue;">SUMSEL ART</a>
             </div>
         </div>
     </footer>
@@ -90,9 +90,9 @@
 # Footer
 --------------------------------------------------------------*/
     #footer {
-        background: turquoise;
+        background: darkviolet;
         padding: 30px 0;
-        color: black;
+        color: white;
         font-size: 14px;
         /* position: fixed;
         bottom: 0; */
@@ -107,7 +107,7 @@
         padding-top: 10px;
         text-align: center;
         font-size: 13px;
-        color: black;
+        color: white;
     }
 
 </style>
