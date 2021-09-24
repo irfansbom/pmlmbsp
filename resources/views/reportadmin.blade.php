@@ -7,7 +7,7 @@
         integrity="sha512-Wt1bJGtlnMtGP0dqNFH1xlkLBNpEodaiQ8ZN5JLA5wpc1sUlk/O5uuOMNgvzddzkpvZ9GLyYNa8w2s7rqiTk5Q=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <div class="container">
+    <div class="container border rounded my-2">
         <div class="col-8">
             <h3>Filter</h3>
             <form action="">
@@ -47,13 +47,17 @@
                             @endforeach
                         </datalist>
                 </div>
-                <button type="submit" class="btn btn-primary float-right">Submit</button>
+                <div class="d-flex justify-content-end m-1">
+                    <button type="submit" class="btn btn-primary btn-lg  my-2">Submit</button>
+                </div>
             </form>
         </div>
 
-        <div>
+        <div class="container border rounded my-2">
+            <h3>Bar Chart</h3>
             <canvas id="myChart" height="20vh" width="60vw"></canvas>
             {{-- <canvas id="myChart2" height="20vh" width="60vw"></canvas> --}}
+            <h3>Tabel</h3>
             <table class="table">
                 <thead>
                     <tr>

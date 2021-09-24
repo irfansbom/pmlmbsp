@@ -276,11 +276,15 @@ class ReportController extends Controller
             $labels = [];
             $kabkotlist = Kabkot::all();
             $kd_kab = session('kode_kab');
-
             if($request->kab != null ){
                 $kd_kab = substr($request->kab,2,2);
             }else{
-                $kd_kab = session('kode_kab');
+                if(session('kode_kab') == "00"){
+                    $kd_kab = '01';
+                }else{
+                    $kd_kab = session('kode_kab');
+                }
+                
             }
             
      

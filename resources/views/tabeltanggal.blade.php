@@ -13,21 +13,55 @@
             <h2>Tabel NKS/Tanggal {{ $namakab[0]->nm_kab }}</h2>
         </div>
         @if (session('kode_kab') == '00')
-            <div>
-                <form>
-                    <div id="divkab">
-                        <label for="kablist" class="">Kabupaten/kota</label>
-                    <input class=" form-control"
-                            list="kaboption" id="kablist" placeholder="Type to search..." name="kab" autocomplete="off">
-                            <datalist id="kaboption">
-                                {{-- <option value="1600" selected>Semua</option> --}}
-                                @foreach ($kabkotlist as $kabkot)
-                                    <option value={{ $kabkot->id_kab }} selected>{{ $kabkot->nm_kab }}</option>
-                                @endforeach
-                            </datalist>
+            <div class="container border rounded my-2">
+                <div class="row">
+                    <div class="col-8">
+                        <h3>Filter</h3>
+                        <form>
+                            <fieldset>
+                                <div id="divkab">
+                                    <label for="kablist"
+                                        class="">Kabupaten/kota</label>
+                            <input class="
+                                        form-control" list="kaboption" id="kablist" placeholder="Type to search..."
+                                        name="kab" autocomplete="off">
+                                        <datalist id="kaboption">
+                                            {{-- <option value="1600" selected>Semua</option> --}}
+                                            @foreach ($kabkotlist as $kabkot)
+                                                <option value={{ $kabkot->id_kab }} selected>{{ $kabkot->nm_kab }}
+                                                </option>
+                                            @endforeach
+                                        </datalist>
+                                </div>
+                                <div class="d-flex justify-content-end m-1">
+                                    <button type="submit" class="btn btn-primary btn-lg  my-2">Submit</button>
+                                </div>
+                            </fieldset>
+                            <fieldset hidden>
+                                <div id="divkab">
+                                    <label for="kablist"
+                                        class="">Kabupaten/kota</label>
+                            <input class="
+                                        form-control" list="kaboption" id="kablist" placeholder="Type to search..."
+                                        name="kab" autocomplete="off">
+                                        <datalist id="kaboption">
+                                            {{-- <option value="1600" selected>Semua</option> --}}
+                                            @foreach ($kabkotlist as $kabkot)
+                                                <option value={{ $kabkot->id_kab }} selected>{{ $kabkot->nm_kab }}
+                                                </option>
+                                            @endforeach
+                                        </datalist>
+                                </div>
+                                <div class="d-flex justify-content-end m-1">
+                                    <button type="submit" class="btn btn-primary btn-lg  my-2">Submit</button>
+                                </div>
+                            </fieldset>
+                        </form>
                     </div>
-                    <button type="submit" class="btn btn-primary float-right">Submit</button>
-                </form>
+                    <div class='col-4'>
+                        Pilihan filter
+                    </div>
+                </div>
             </div>
         @endif
 
