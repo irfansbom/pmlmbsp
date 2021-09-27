@@ -41,3 +41,11 @@ Route::resource('report', ReportController::class);
 Route::get('/adminkab', [ReportController::class, 'adminkab']);
 Route::get('/admin', [ReportController::class, 'admin']);
 Route::get('/tabeltanggal', [ReportController::class, 'tabeltanggal']);
+Route::get('/tabeltanggal/bytanggal', [ReportController::class, 'bytanggal']);
+Route::get('/tabeltanggal/bypml', [ReportController::class, 'bypml']);
+Route::get('/downloadreport', [ReportController::class, 'downloadreport']);
+Route::get('/downloadreportkab', [ReportController::class, 'downloadreportkab']);
+Route::get('/downloadtabeltanggal', [ReportController::class, 'downloadtabeltanggal']);
+Route::get('/tabeltanggal/downloadtabeltanggalbypml', [ReportController::class, 'downloadtabeltanggalbypml']);
+Route::get('/tabeltanggal/downloadtabeltanggalbytanggal', [ReportController::class, 'downloadtabeltanggalbytanggal']);
+
