@@ -32,6 +32,14 @@
         background: 'white'
       })
     }
+    if(alert=="pml"){
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Anda Bukan Admin',
+        background: 'white'
+      })
+    }
 </script>
 {{-- @endsection --}}
 <style>

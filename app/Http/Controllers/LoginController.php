@@ -59,12 +59,13 @@ class LoginController extends Controller
             $request->session()->put('kode_kab', $pwdb->kd_kab);
             // dump(session()->has('username'));
             // if($pwdb ){
-
             // }
             if (session('level') == "ADMINKAB") {
                 return redirect()->action([ReportController::class, 'adminkab']);
             } elseif (session('level') == "ADMINPROP") {
                 return redirect()->action([ReportController::class, 'admin']);
+            }else{
+                return redirect()->action([LoginController::class, 'index'], ['alert' => 'pml']);
             }
         } else {
             // dump('salah');
