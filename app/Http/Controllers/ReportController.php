@@ -8,19 +8,9 @@ use App\Models\Input;
 use App\Models\Kabkot;
 use App\Models\Petugas;
 use App\Models\Tanggal;
-use App\Models\User;
-use Facade\FlareClient\Http\Response;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use phpDocumentor\Reflection\Types\This;
-use PHPUnit\Util\Json;
-use stdClass;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use Symfony\Component\HttpFoundation\StreamedResponse;
-use \PhpOffice\PhpSpreadsheet\IOFactory;
-use \PhpOffice\PhpSpreadsheet\Reader\IReader;
-
 
 
 class ReportController extends Controller
